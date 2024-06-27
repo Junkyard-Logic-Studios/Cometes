@@ -1,0 +1,53 @@
+[gd_scene load_steps=9 format=3 uid="uid://dk7b0mdcmcarn"]
+
+[ext_resource type="Script" path="res://SpaceShip.cs" id="1_yghqm"]
+[ext_resource type="Material" uid="uid://ds53adb27tu4w" path="res://ORANGE.tres" id="2_msepp"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_jvco5"]
+
+[sub_resource type="PrismMesh" id="PrismMesh_ch8u7"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jt1wo"]
+
+[sub_resource type="TextMesh" id="TextMesh_mvq2w"]
+material = SubResource("StandardMaterial3D_jt1wo")
+text = "HP
+
+"
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wkeri"]
+
+[sub_resource type="TextMesh" id="TextMesh_jra8k"]
+material = SubResource("StandardMaterial3D_wkeri")
+text = "100
+"
+
+[node name="SpaceShip" type="CharacterBody3D"]
+motion_mode = 1
+script = ExtResource("1_yghqm")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("BoxShape3D_jvco5")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="Model" type="MeshInstance3D" parent="Pivot"]
+transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
+material_override = ExtResource("2_msepp")
+mesh = SubResource("PrismMesh_ch8u7")
+
+[node name="CameraPole" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 0.866025, -0.5, 0, 0.5, 0.866025, 0, 0, 0)
+
+[node name="Camera3D" type="Camera3D" parent="CameraPole"]
+transform = Transform3D(-1, 0, 8.74228e-08, 0, 1, 0, -8.74228e-08, 0, -1, 0, 0, -5)
+
+[node name="UI" type="Node3D" parent="."]
+
+[node name="Hp_Display" type="MeshInstance3D" parent="UI"]
+transform = Transform3D(-1, 0, -8.74228e-08, -4.37114e-08, 0.866025, 0.5, 7.57103e-08, 0.5, -0.866025, 0, 0.893877, -0.258046)
+mesh = SubResource("TextMesh_mvq2w")
+
+[node name="Hp_Text" type="MeshInstance3D" parent="UI"]
+transform = Transform3D(-1, 4.37114e-08, 7.57103e-08, 7.57103e-08, 0.866025, 0.5, -4.37114e-08, 0.5, -0.866025, 0, 0.805231, -0.362548)
+mesh = SubResource("TextMesh_jra8k")

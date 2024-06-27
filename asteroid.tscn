@@ -1,0 +1,22 @@
+[gd_scene load_steps=4 format=3 uid="uid://b6k5scku45261"]
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_55i7m"]
+radius = 1.0
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_77ae4"]
+albedo_color = Color(0.439049, 0.439049, 0.439049, 1)
+
+[sub_resource type="SphereMesh" id="SphereMesh_qxggh"]
+material = SubResource("StandardMaterial3D_77ae4")
+radius = 1.0
+height = 2.0
+
+[node name="Asteroid" type="RigidBody3D"]
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_55i7m")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
+mesh = SubResource("SphereMesh_qxggh")

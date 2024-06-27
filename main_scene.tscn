@@ -1,5 +1,34 @@
-[gd_scene format=3 uid="uid://cegr6umrjlhre"]
+[gd_scene load_steps=5 format=3 uid="uid://cegr6umrjlhre"]
+
+[ext_resource type="PackedScene" uid="uid://c1vc63d2q2sos" path="res://laser.tscn" id="1_a0i7q"]
+[ext_resource type="PackedScene" uid="uid://dk7b0mdcmcarn" path="res://space_ship.tscn" id="2_4n7vr"]
+
+[sub_resource type="Environment" id="Environment_poymu"]
+background_mode = 1
+background_color = Color(0.00678036, 0.0300044, 0.0441231, 1)
+background_energy_multiplier = 1.52
+ambient_light_color = Color(0.740331, 0.629041, 0.256097, 1)
+glow_intensity = 1.0
+fog_light_color = Color(0.153668, 0.170653, 0.197356, 1)
+fog_light_energy = 0.5
+fog_sun_scatter = 0.07
+fog_density = 0.1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_gh0vw"]
+dof_blur_far_distance = 1000.0
+dof_blur_near_enabled = true
+dof_blur_near_distance = 1.0
 
 [node name="Stage" type="Node3D"]
 
-[node name="Camera3D" type="Camera3D" parent="."]
+[node name="Laser" parent="." instance=ExtResource("1_a0i7q")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 5)
+
+[node name="SpaceShip" parent="." instance=ExtResource("2_4n7vr")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_poymu")
+camera_attributes = SubResource("CameraAttributesPractical_gh0vw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 40, -26)

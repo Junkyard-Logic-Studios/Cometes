@@ -1,0 +1,26 @@
+[gd_scene load_steps=4 format=3 uid="uid://c1vc63d2q2sos"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_j2mxq"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_mqgn7"]
+shading_mode = 0
+albedo_color = Color(0.776205, 0.477581, 0.279344, 1)
+
+[sub_resource type="CapsuleMesh" id="CapsuleMesh_e8gip"]
+material = SubResource("StandardMaterial3D_mqgn7")
+
+[node name="Laser" type="RigidBody3D"]
+gravity_scale = 0.0
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+transform = Transform3D(0.385, 0, 0, 0, -2.09815e-08, -0.39, 0, 0.48, -1.70474e-08, 0, 0, 0)
+shape = SubResource("CylinderShape3D_j2mxq")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.39, 0, 0, 0, -2.18557e-08, -0.4, 0, 0.5, -1.74846e-08, 0, 0, 0)
+mesh = SubResource("CapsuleMesh_e8gip")
+
+[node name="OmniLight3D" type="OmniLight3D" parent="MeshInstance3D"]
+transform = Transform3D(-1, 0, 0, 0, 1, 0, 0, 0, -1, 0, 0, 0)
+light_color = Color(0.818685, 0.469849, 0.268967, 1)
+light_energy = 5.382
