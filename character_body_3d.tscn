@@ -1,0 +1,37 @@
+[gd_scene load_steps=5 format=3 uid="uid://chg4v0no7hmog"]
+
+[ext_resource type="Script" path="res://Player.cs" id="1_uh5ui"]
+
+[sub_resource type="TorusMesh" id="TorusMesh_8s5ng"]
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_wxht3"]
+margin = 0.0
+height = 0.5
+radius = 1.0
+
+[sub_resource type="CylinderShape3D" id="CylinderShape3D_hsd8t"]
+height = 0.5
+radius = 1.0
+
+[node name="Player" type="CharacterBody3D"]
+script = ExtResource("1_uh5ui")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="Character" type="MeshInstance3D" parent="Pivot"]
+mesh = SubResource("TorusMesh_8s5ng")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("CylinderShape3D_wxht3")
+
+[node name="Area3D" type="Area3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, -0.392104, 0)
+collision_layer = 0
+collision_mask = 2
+monitorable = false
+
+[node name="MobDetector" type="CollisionShape3D" parent="Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.399852, 0)
+shape = SubResource("CylinderShape3D_hsd8t")
+
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]

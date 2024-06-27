@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://7wr1uswhvax1"]
+
+[ext_resource type="Script" path="res://Mob.cs" id="1_t6y1x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jlpto"]
+albedo_color = Color(0.866826, 0.521933, 0.136474, 1)
+
+[sub_resource type="PrismMesh" id="PrismMesh_01q71"]
+material = SubResource("StandardMaterial3D_jlpto")
+
+[sub_resource type="SphereShape3D" id="SphereShape3D_l1w2g"]
+radius = 0.8
+
+[node name="Mob" type="CharacterBody3D" groups=["mob"]]
+collision_layer = 2
+collision_mask = 0
+script = ExtResource("1_t6y1x")
+
+[node name="Pivot" type="Node3D" parent="."]
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
+mesh = SubResource("PrismMesh_01q71")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("SphereShape3D_l1w2g")
+
+[node name="VisibleOnScreenNotifier3D" type="VisibleOnScreenNotifier3D" parent="."]
+aabb = AABB(-0.5, -0.5, -0.5, 1, 1, 1)
+
+[connection signal="screen_exited" from="VisibleOnScreenNotifier3D" to="." method="_on_visible_on_screen_notifier_3d_screen_exited"]
