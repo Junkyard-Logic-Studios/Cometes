@@ -1,0 +1,44 @@
+[gd_scene load_steps=6 format=3 uid="uid://cegr6umrjlhre"]
+
+[ext_resource type="PackedScene" uid="uid://c1vc63d2q2sos" path="res://scenes/laser.tscn" id="1_8umjw"]
+[ext_resource type="PackedScene" uid="uid://dk7b0mdcmcarn" path="res://scenes/space_ship.tscn" id="2_epmte"]
+[ext_resource type="PackedScene" uid="uid://b6k5scku45261" path="res://scenes/asteroid.tscn" id="3_6hl20"]
+
+[sub_resource type="Environment" id="Environment_poymu"]
+background_mode = 1
+background_color = Color(0.00678036, 0.0300044, 0.0441231, 1)
+background_energy_multiplier = 1.52
+ambient_light_color = Color(0.740331, 0.629041, 0.256097, 1)
+glow_intensity = 1.0
+fog_light_color = Color(0.153668, 0.170653, 0.197356, 1)
+fog_light_energy = 0.5
+fog_sun_scatter = 0.07
+fog_density = 0.1
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_gh0vw"]
+dof_blur_far_distance = 1000.0
+dof_blur_near_enabled = true
+dof_blur_near_distance = 1.0
+
+[node name="Stage" type="Node3D"]
+
+[node name="Laser" parent="." instance=ExtResource("1_8umjw")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
+
+[node name="SpaceShip" parent="." instance=ExtResource("2_epmte")]
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_poymu")
+camera_attributes = SubResource("CameraAttributesPractical_gh0vw")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 40, -26)
+
+[node name="Asteroid" parent="." instance=ExtResource("3_6hl20")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.8688, 2, 10.9555)
+
+[node name="Asteroid2" parent="." instance=ExtResource("3_6hl20")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.109, 0, 14.4317)
+
+[node name="Asteroid3" parent="." instance=ExtResource("3_6hl20")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.88628, 0, -12.8977)
