@@ -1,6 +1,5 @@
-[gd_scene load_steps=6 format=3 uid="uid://cegr6umrjlhre"]
+[gd_scene load_steps=5 format=3 uid="uid://cegr6umrjlhre"]
 
-[ext_resource type="PackedScene" uid="uid://c1vc63d2q2sos" path="res://scenes/laser.tscn" id="1_8umjw"]
 [ext_resource type="PackedScene" uid="uid://dk7b0mdcmcarn" path="res://scenes/space_ship.tscn" id="2_epmte"]
 [ext_resource type="PackedScene" uid="uid://b6k5scku45261" path="res://scenes/asteroid.tscn" id="3_6hl20"]
 
@@ -21,9 +20,6 @@ dof_blur_near_enabled = true
 dof_blur_near_distance = 1.0
 
 [node name="Stage" type="Node3D"]
-
-[node name="Laser" parent="." instance=ExtResource("1_8umjw")]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 3)
 
 [node name="SpaceShip" parent="." instance=ExtResource("2_epmte")]
 

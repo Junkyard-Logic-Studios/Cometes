@@ -15,7 +15,7 @@ public partial class SpaceShip : CharacterBody3D
     public float RotationalSpeed { get; set; } = 0.5f;
 
     [Export]
-    public PackedScene Laser { get; set; }
+    public PackedScene LaserScene { get; set; }
 
 
 
@@ -26,7 +26,7 @@ public partial class SpaceShip : CharacterBody3D
         // apply linear acceleration
         if (Input.IsActionPressed("accelerate"))
         {
-            var direction = Basis.GetRotationQuaternion() *
+            var direction = Basis *
                 new Vector3(0f, 0f, LinearAcceleration);
             Velocity += direction * (float)delta;
             Velocity = Velocity.LimitLength(LinearMaxSpeed);
@@ -56,5 +56,27 @@ public partial class SpaceShip : CharacterBody3D
         }
 
         MoveAndSlide();
+
+        // set gun timer
+        if (Input.IsActionJustPressed("shoot"))
+            GetNode<Timer>("Gun/FiringTimer").Start();
+
+        if (Input.IsActionJustReleased("shoot"))
+            GetNode<Timer>("Gun/FiringTimer").Stop();
+    }
+
+
+    
+    // Gun Firing Timer Timeout
+
+    public void OnFiringTimerTimeout()
+    {
+        var spawn = GetNode<Marker3D>("Gun/SpawnPoint");
+
+        Laser laser = LaserScene.Instantiate<Laser>();
+        laser.Initialize(spawn.GlobalPosition, Basis * Vector3.Back);
+
+        // spawn into game independent of ship
+        GetTree().Root.AddChild(laser);
     }
 }
