@@ -1,13 +1,16 @@
-[gd_scene load_steps=10 format=3 uid="uid://dk7b0mdcmcarn"]
+[gd_scene load_steps=11 format=3 uid="uid://dk7b0mdcmcarn"]
 
 [ext_resource type="Script" path="res://scripts/SpaceShip.cs" id="1_yghqm"]
-[ext_resource type="Material" uid="uid://ds53adb27tu4w" path="res://materials/ORANGE.tres" id="2_msepp"]
 [ext_resource type="PackedScene" uid="uid://c1vc63d2q2sos" path="res://scenes/laser.tscn" id="2_v8ax5"]
+[ext_resource type="ArrayMesh" uid="uid://b2pd1v64yb0au" path="res://Spacecraft_comete.obj" id="3_yfidi"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_1jysm"]
 radius = 0.599621
 
-[sub_resource type="PrismMesh" id="PrismMesh_ch8u7"]
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_6x2pn"]
+albedo_color = Color(0.423529, 0.176471, 0.137255, 1)
+
+[sub_resource type="SystemFont" id="SystemFont_l6550"]
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jt1wo"]
 shading_mode = 0
@@ -17,6 +20,7 @@ material = SubResource("StandardMaterial3D_jt1wo")
 text = "HP
 
 "
+font = SubResource("SystemFont_l6550")
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_wkeri"]
 shading_mode = 0
@@ -37,22 +41,27 @@ shape = SubResource("SphereShape3D_1jysm")
 
 [node name="Pivot" type="Node3D" parent="."]
 
-[node name="Model" type="MeshInstance3D" parent="Pivot"]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0.19247)
-material_override = ExtResource("2_msepp")
-mesh = SubResource("PrismMesh_ch8u7")
-
 [node name="Camera3D" type="Camera3D" parent="Pivot"]
 transform = Transform3D(-1, 3.24475e-14, 8.74228e-08, 2.26267e-08, 0.965926, 0.258819, -8.44439e-08, 0.258819, -0.965926, 0, 1.38392, -4.33)
 
+[node name="SpacecraftComete" type="MeshInstance3D" parent="Pivot"]
+transform = Transform3D(-3.49691e-09, 0, -0.08, 0, 0.07056, 0, 0.08, 0, -3.49691e-09, 0.00370216, -0.729854, 0.25632)
+material_override = SubResource("StandardMaterial3D_6x2pn")
+gi_mode = 2
+mesh = ExtResource("3_yfidi")
+skeleton = NodePath("../..")
+
 [node name="UI" type="Node3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312259, -0.258885, -0.565734)
 
 [node name="Hp_Display" type="MeshInstance3D" parent="UI"]
-transform = Transform3D(-1, 0, -8.74228e-08, -4.37114e-08, 0.866025, 0.5, 7.57103e-08, 0.5, -0.866025, 0, 0.893877, -0.258046)
+transform = Transform3D(-1, 0, -8.74228e-08, -4.37114e-08, 0.866025, 0.5, 7.57103e-08, 0.5, -0.866025, -0.00348926, 0.897804, -0.254664)
+cast_shadow = 0
 mesh = SubResource("TextMesh_mvq2w")
 
 [node name="Hp_Text" type="MeshInstance3D" parent="UI"]
 transform = Transform3D(-1, 4.37114e-08, 7.57103e-08, 7.57103e-08, 0.866025, 0.5, -4.37114e-08, 0.5, -0.866025, 0, 0.805231, -0.362548)
+cast_shadow = 0
 mesh = SubResource("TextMesh_jra8k")
 
 [node name="Gun" type="Node3D" parent="."]

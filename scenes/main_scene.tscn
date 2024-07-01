@@ -1,34 +1,48 @@
-[gd_scene load_steps=5 format=3 uid="uid://cegr6umrjlhre"]
+[gd_scene load_steps=6 format=3 uid="uid://cegr6umrjlhre"]
 
 [ext_resource type="PackedScene" uid="uid://dk7b0mdcmcarn" path="res://scenes/space_ship.tscn" id="2_epmte"]
 [ext_resource type="PackedScene" uid="uid://b6k5scku45261" path="res://scenes/asteroid.tscn" id="3_6hl20"]
 
-[sub_resource type="Environment" id="Environment_poymu"]
-background_mode = 1
-background_color = Color(0.00678036, 0.0300044, 0.0441231, 1)
-background_energy_multiplier = 1.52
-ambient_light_color = Color(0.740331, 0.629041, 0.256097, 1)
-glow_intensity = 1.0
-fog_light_color = Color(0.153668, 0.170653, 0.197356, 1)
-fog_light_energy = 0.5
-fog_sun_scatter = 0.07
-fog_density = 0.1
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_c7wv5"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0.0966197, 0.10782, 0.160942, 1)
+sky_curve = 0.117688
+sky_energy_multiplier = 2.0
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.0980392, 0.105882, 0.160784, 1)
+ground_curve = 0.0118921
+ground_energy_multiplier = 2.0
+sun_angle_max = 2.59
+sun_curve = 0.106066
 
-[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_gh0vw"]
-dof_blur_far_distance = 1000.0
-dof_blur_near_enabled = true
-dof_blur_near_distance = 1.0
+[sub_resource type="Sky" id="Sky_gn1d4"]
+sky_material = SubResource("ProceduralSkyMaterial_c7wv5")
+process_mode = 1
+
+[sub_resource type="Environment" id="Environment_ir04n"]
+background_mode = 2
+sky = SubResource("Sky_gn1d4")
+ambient_light_source = 1
+ambient_light_color = Color(0.0980392, 0.105882, 0.160784, 1)
+ambient_light_sky_contribution = 0.11
+reflected_light_source = 2
+tonemap_mode = 2
+ssr_fade_in = 0.0174944
+fog_enabled = true
+fog_light_color = Color(0.0980392, 0.105882, 0.160784, 1)
+fog_light_energy = 0.22
+fog_sun_scatter = 0.1
+fog_density = 0.0492
+fog_aerial_perspective = 0.007
+fog_sky_affect = 0.66
 
 [node name="Stage" type="Node3D"]
 
 [node name="SpaceShip" parent="." instance=ExtResource("2_epmte")]
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_poymu")
-camera_attributes = SubResource("CameraAttributesPractical_gh0vw")
-
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -0.707107, 0.707107, 0, -0.707107, -0.707107, 0, 40, -26)
+transform = Transform3D(0.969047, 0.135889, -0.20611, 0.245605, -0.446076, 0.860636, 0.0250105, -0.884619, -0.465644, 6.01247, 5.88253, -2.56848)
+shadow_enabled = true
 
 [node name="Asteroid" parent="." instance=ExtResource("3_6hl20")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.8688, 2, 10.9555)
@@ -38,3 +52,6 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.109, 0, 14.4317)
 
 [node name="Asteroid3" parent="." instance=ExtResource("3_6hl20")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.88628, 0, -12.8977)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_ir04n")
