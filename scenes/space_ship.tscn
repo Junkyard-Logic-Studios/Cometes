@@ -43,7 +43,7 @@ material_override = ExtResource("2_msepp")
 mesh = SubResource("PrismMesh_ch8u7")
 
 [node name="Camera3D" type="Camera3D" parent="Pivot"]
-transform = Transform3D(-1, -8.40871e-15, 8.74228e-08, 2.26267e-08, 0.965926, 0.258819, -8.44439e-08, 0.258819, -0.965926, 0, 1, -4.33)
+transform = Transform3D(-1, 3.24475e-14, 8.74228e-08, 2.26267e-08, 0.965926, 0.258819, -8.44439e-08, 0.258819, -0.965926, 0, 1.38392, -4.33)
 
 [node name="UI" type="Node3D" parent="."]
 
