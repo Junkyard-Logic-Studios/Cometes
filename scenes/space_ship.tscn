@@ -1,8 +1,8 @@
 [gd_scene load_steps=11 format=3 uid="uid://dk7b0mdcmcarn"]
 
-[ext_resource type="Script" path="res://scripts/SpaceShip.cs" id="1_yghqm"]
+[ext_resource type="Script" path="res://scripts/space_ship.gd" id="1_fjdmo"]
 [ext_resource type="PackedScene" uid="uid://c1vc63d2q2sos" path="res://scenes/laser.tscn" id="2_v8ax5"]
-[ext_resource type="ArrayMesh" uid="uid://b2pd1v64yb0au" path="res://Spacecraft_comete.obj" id="3_yfidi"]
+[ext_resource type="ArrayMesh" uid="uid://b2pd1v64yb0au" path="res://models/Spacecraft_comete.obj" id="3_r6kpr"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_1jysm"]
 radius = 0.599621
@@ -11,6 +11,7 @@ radius = 0.599621
 albedo_color = Color(0.423529, 0.176471, 0.137255, 1)
 
 [sub_resource type="SystemFont" id="SystemFont_l6550"]
+subpixel_positioning = 0
 
 [sub_resource type="StandardMaterial3D" id="StandardMaterial3D_jt1wo"]
 shading_mode = 0
@@ -32,8 +33,8 @@ text = "100
 
 [node name="SpaceShip" type="CharacterBody3D"]
 motion_mode = 1
-script = ExtResource("1_yghqm")
-LaserScene = ExtResource("2_v8ax5")
+script = ExtResource("1_fjdmo")
+laser_scene = ExtResource("2_v8ax5")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0602649)
@@ -48,7 +49,7 @@ transform = Transform3D(-1, 3.24475e-14, 8.74228e-08, 2.26267e-08, 0.965926, 0.2
 transform = Transform3D(-3.49691e-09, 0, -0.08, 0, 0.07056, 0, 0.08, 0, -3.49691e-09, 0.00370216, -0.729854, 0.25632)
 material_override = SubResource("StandardMaterial3D_6x2pn")
 gi_mode = 2
-mesh = ExtResource("3_yfidi")
+mesh = ExtResource("3_r6kpr")
 skeleton = NodePath("../..")
 
 [node name="UI" type="Node3D" parent="."]
@@ -73,3 +74,4 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
 wait_time = 0.25
 
 [connection signal="timeout" from="Gun/FiringTimer" to="." method="OnFiringTimerTimeout"]
+[connection signal="timeout" from="Gun/FiringTimer" to="." method="_on_firing_timer_timeout"]

@@ -1,0 +1,22 @@
+[remap]
+
+importer="wavefront_obj"
+importer_version=1
+type="Mesh"
+uid="uid://b2pd1v64yb0au"
+path="res://.godot/imported/Spacecraft_comete.obj-cc01c328c5d726c579f874837c01917b.mesh"
+
+[deps]
+
+files=["res://.godot/imported/Spacecraft_comete.obj-cc01c328c5d726c579f874837c01917b.mesh"]
+
+source_file="res://models/Spacecraft_comete.obj"
+dest_files=["res://.godot/imported/Spacecraft_comete.obj-cc01c328c5d726c579f874837c01917b.mesh", "res://.godot/imported/Spacecraft_comete.obj-cc01c328c5d726c579f874837c01917b.mesh"]
+
+[params]
+
+generate_tangents=true
+scale_mesh=Vector3(1, 1, 1)
+offset_mesh=Vector3(0, 0, 0)
+optimize_mesh=true
+force_disable_mesh_compression=false

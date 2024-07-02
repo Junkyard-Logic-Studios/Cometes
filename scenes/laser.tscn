@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://c1vc63d2q2sos"]
 
-[ext_resource type="Script" path="res://scripts/Laser.cs" id="1_w1s6y"]
+[ext_resource type="Script" path="res://scripts/laser.gd" id="1_08pum"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_j2mxq"]
 height = 0.8
@@ -24,7 +24,7 @@ collision_layer = 2
 collision_mask = 2
 mass = 0.01
 gravity_scale = 0.0
-script = ExtResource("1_w1s6y")
+script = ExtResource("1_08pum")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -52,4 +52,6 @@ transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 
 shape = SubResource("CylinderShape3D_w4ngb")
 
 [connection signal="timeout" from="Lifetime" to="." method="OnLifetimeTimeout"]
+[connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]
 [connection signal="body_entered" from="Area3D" to="." method="OnArea3DBodyEntered"]
+[connection signal="body_entered" from="Area3D" to="." method="_on_area_3d_body_entered"]
