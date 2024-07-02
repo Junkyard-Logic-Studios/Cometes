@@ -1,6 +1,7 @@
-[gd_scene load_steps=6 format=3 uid="uid://cegr6umrjlhre"]
+[gd_scene load_steps=8 format=3 uid="uid://cegr6umrjlhre"]
 
 [ext_resource type="PackedScene" uid="uid://dk7b0mdcmcarn" path="res://scenes/space_ship.tscn" id="2_epmte"]
+[ext_resource type="Script" path="res://scripts/world.gd" id="3_6c7wi"]
 [ext_resource type="PackedScene" uid="uid://b6k5scku45261" path="res://scenes/asteroid.tscn" id="3_6hl20"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_c7wv5"]
@@ -36,13 +37,12 @@ fog_density = 0.0492
 fog_aerial_perspective = 0.007
 fog_sky_affect = 0.66
 
+[sub_resource type="BoxShape3D" id="BoxShape3D_pag7o"]
+size = Vector3(40, 40, 40)
+
 [node name="Stage" type="Node3D"]
 
 [node name="SpaceShip" parent="." instance=ExtResource("2_epmte")]
-
-[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
-transform = Transform3D(0.969047, 0.135889, -0.20611, 0.245605, -0.446076, 0.860636, 0.0250105, -0.884619, -0.465644, 6.01247, 5.88253, -2.56848)
-shadow_enabled = true
 
 [node name="Asteroid" parent="." instance=ExtResource("3_6hl20")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.8688, 2, 10.9555)
@@ -53,5 +53,22 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.109, 0, 14.4317)
 [node name="Asteroid3" parent="." instance=ExtResource("3_6hl20")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.88628, 0, -12.8977)
 
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+[node name="World" type="Node3D" parent="."]
+script = ExtResource("3_6c7wi")
+
+[node name="Environment" type="WorldEnvironment" parent="World"]
 environment = SubResource("Environment_ir04n")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
+transform = Transform3D(0.969047, 0.135889, -0.20611, 0.245605, -0.446076, 0.860636, 0.0250105, -0.884619, -0.465644, 6.01247, 5.88253, -2.56848)
+shadow_enabled = true
+
+[node name="Area3D" type="Area3D" parent="World"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+shape = SubResource("BoxShape3D_pag7o")
+
+[connection signal="body_exited" from="World/Area3D" to="World" method="_on_area_3d_body_exited"]
