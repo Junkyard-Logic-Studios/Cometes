@@ -1,15 +1,78 @@
-[gd_scene load_steps=4 format=3 uid="uid://b6k5scku45261"]
+[gd_scene load_steps=7 format=3 uid="uid://b6k5scku45261"]
+
+[ext_resource type="PackedScene" uid="uid://crbv1xffhd0yp" path="res://scenes/space_mesh.tscn" id="1_dus42"]
 
 [sub_resource type="SphereShape3D" id="SphereShape3D_55i7m"]
 radius = 1.0
 
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_77ae4"]
-albedo_color = Color(0.439049, 0.439049, 0.439049, 1)
+[sub_resource type="Shader" id="Shader_6rxih"]
+code = "// NOTE: Shader automatically converted from Godot Engine 4.2.2.stable.mono's StandardMaterial3D.
+
+shader_type spatial;
+render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
+uniform vec4 albedo : source_color;
+uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
+uniform float point_size : hint_range(0,128);
+uniform float roughness : hint_range(0,1);
+uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
+uniform vec4 metallic_texture_channel;
+uniform sampler2D texture_roughness : hint_roughness_r,filter_linear_mipmap,repeat_enable;
+uniform float specular;
+uniform float metallic;
+uniform vec3 uv1_scale;
+uniform vec3 uv1_offset;
+uniform vec3 uv2_scale;
+uniform vec3 uv2_offset;
+
+
+void vertex() {
+	UV=UV*uv1_scale.xy+uv1_offset.xy;
+}
+
+
+
+
+
+
+void fragment() {
+	vec2 base_uv = UV;
+	vec4 albedo_tex = texture(texture_albedo,base_uv);
+	ALBEDO = albedo.rgb * albedo_tex.rgb;
+	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
+	METALLIC = metallic_tex * metallic;
+	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
+	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
+	ROUGHNESS = roughness_tex * roughness;
+	SPECULAR = specular;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_od7we"]
+render_priority = 0
+shader = SubResource("Shader_6rxih")
+shader_parameter/albedo = Color(0.439049, 0.439049, 0.439049, 1)
+shader_parameter/point_size = 1.0
+shader_parameter/roughness = 1.0
+shader_parameter/metallic_texture_channel = null
+shader_parameter/specular = 0.5
+shader_parameter/metallic = 0.0
+shader_parameter/uv1_scale = Vector3(1, 1, 1)
+shader_parameter/uv1_offset = Vector3(0, 0, 0)
+shader_parameter/uv2_scale = Vector3(1, 1, 1)
+shader_parameter/uv2_offset = Vector3(0, 0, 0)
 
 [sub_resource type="SphereMesh" id="SphereMesh_qxggh"]
-material = SubResource("StandardMaterial3D_77ae4")
+material = SubResource("ShaderMaterial_od7we")
 radius = 1.0
 height = 2.0
+radial_segments = 24
+rings = 16
+
+[sub_resource type="SphereMesh" id="SphereMesh_wipqv"]
+radius = 1.0
+height = 2.0
+radial_segments = 32
+rings = 16
 
 [node name="Asteroid" type="RigidBody3D"]
 collision_layer = 3
@@ -24,3 +87,7 @@ shape = SubResource("SphereShape3D_55i7m")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
 mesh = SubResource("SphereMesh_qxggh")
+
+[node name="SpaceMesh" parent="Pivot" instance=ExtResource("1_dus42")]
+mesh = SubResource("SphereMesh_wipqv")
+color = Color(0.439216, 0.439216, 0.439216, 1)

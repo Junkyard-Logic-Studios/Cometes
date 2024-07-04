@@ -2,7 +2,7 @@ extends RigidBody3D
 
 
 # properties
-@export_range(10, 100, 2) var speed: float = 50
+@export_range(0, 100, 2) var speed: float = 50
 
 
 # initialize object at given position and start it moving in the given direction
