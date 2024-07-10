@@ -3,7 +3,7 @@
 importer="texture"
 type="CompressedTexture2D"
 uid="uid://d33vk8cvnjppv"
-path.s3tc="res://.godot/imported/Spacecraft_comete_0.png-3f22eaa2f64fce664bd80094650332f6.s3tc.ctex"
+path.s3tc="res://.godot/imported/Spacecraft_comete_0.png-9150ccf9a758873b90fe6e3460eeddae.s3tc.ctex"
 metadata={
 "imported_formats": ["s3tc_bptc"],
 "vram_texture": true
@@ -14,8 +14,8 @@ generator_parameters={
 
 [deps]
 
-source_file="res://scenes/Spacecraft_comete_0.png"
-dest_files=["res://.godot/imported/Spacecraft_comete_0.png-3f22eaa2f64fce664bd80094650332f6.s3tc.ctex"]
+source_file="res://models/Spacecraft_comete_0.png"
+dest_files=["res://.godot/imported/Spacecraft_comete_0.png-9150ccf9a758873b90fe6e3460eeddae.s3tc.ctex"]
 
 [params]
 

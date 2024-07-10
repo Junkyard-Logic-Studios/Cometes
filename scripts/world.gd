@@ -1,12 +1,23 @@
 extends Node3D
 
 
-func _on_area_3d_body_exited(body):
+func _ready():
+	# get world box
+	var area_shape = $CollisionShape3D
+	var shape_size = (area_shape.shape as BoxShape3D).size
+	shape_size *= scale
+
+	# write worldsize to shader
+	var mesh : Mesh = ($MeshInstance3D as MeshInstance3D).mesh
+	mesh.surface_get_material(0).set_shader_parameter("worldSize", shape_size)
+
+
+func _on_body_exited(body):
 	if not "position" in body:
 		return
 
 	# get world box
-	var area_shape = $Area3D/CollisionShape3D
+	var area_shape = $CollisionShape3D
 	var shape_size = (area_shape.shape as BoxShape3D).size
 
 	# transform body position to box local space

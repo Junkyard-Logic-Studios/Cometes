@@ -44,6 +44,7 @@ shape = SubResource("SphereShape3D_1jysm")
 
 [node name="Camera3D" type="Camera3D" parent="Pivot"]
 transform = Transform3D(-1, 3.24475e-14, 8.74228e-08, 2.26267e-08, 0.965926, 0.258819, -8.44439e-08, 0.258819, -0.965926, 0, 1.38392, -4.33)
+current = true
 
 [node name="SpacecraftComete" type="MeshInstance3D" parent="Pivot"]
 transform = Transform3D(-3.49691e-09, 0, -0.08, 0, 0.07056, 0, 0.08, 0, -3.49691e-09, 0.00370216, -0.729854, 0.25632)
@@ -73,5 +74,5 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
 [node name="FiringTimer" type="Timer" parent="Gun"]
 wait_time = 0.25
 
-[connection signal="timeout" from="Gun/FiringTimer" to="." method="OnFiringTimerTimeout"]
 [connection signal="timeout" from="Gun/FiringTimer" to="." method="_on_firing_timer_timeout"]
+[connection signal="timeout" from="Gun/FiringTimer" to="." method="OnFiringTimerTimeout"]

@@ -1,8 +1,22 @@
-[gd_scene load_steps=8 format=3 uid="uid://cegr6umrjlhre"]
+[gd_scene load_steps=11 format=3 uid="uid://cegr6umrjlhre"]
 
 [ext_resource type="PackedScene" uid="uid://dk7b0mdcmcarn" path="res://scenes/space_ship.tscn" id="2_epmte"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="3_6c7wi"]
 [ext_resource type="PackedScene" uid="uid://b6k5scku45261" path="res://scenes/asteroid.tscn" id="3_6hl20"]
+[ext_resource type="Shader" path="res://scripts/raymarch.gdshader" id="4_gt4jq"]
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pag7o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_lmcch"]
+render_priority = 0
+shader = ExtResource("4_gt4jq")
+shader_parameter/worldSize = Vector3(100, 100, 100)
+shader_parameter/maxDistance = 300.0
+shader_parameter/maxSteps = 100
+shader_parameter/minHitDistance = 0.01
+
+[sub_resource type="BoxMesh" id="BoxMesh_aiqb3"]
+material = SubResource("ShaderMaterial_lmcch")
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_c7wv5"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -29,20 +43,17 @@ ambient_light_sky_contribution = 0.11
 reflected_light_source = 2
 tonemap_mode = 2
 ssr_fade_in = 0.0174944
-fog_enabled = true
 fog_light_color = Color(0.0980392, 0.105882, 0.160784, 1)
 fog_light_energy = 0.22
 fog_sun_scatter = 0.1
 fog_density = 0.0492
-fog_aerial_perspective = 0.007
 fog_sky_affect = 0.66
-
-[sub_resource type="BoxShape3D" id="BoxShape3D_pag7o"]
-size = Vector3(40, 40, 40)
 
 [node name="Stage" type="Node3D"]
 
 [node name="SpaceShip" parent="." instance=ExtResource("2_epmte")]
+linear_acceleration = 4.0
+linear_max_speed = 20.0
 
 [node name="Asteroid" parent="." instance=ExtResource("3_6hl20")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 11.8688, 2, 10.9555)
@@ -53,22 +64,23 @@ transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -12.109, 0, 14.4317)
 [node name="Asteroid3" parent="." instance=ExtResource("3_6hl20")]
 transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -8.88628, 0, -12.8977)
 
-[node name="World" type="Node3D" parent="."]
+[node name="World" type="Area3D" parent="."]
+transform = Transform3D(100, 0, 0, 0, 100, 0, 0, 0, 100, 0, 0, 0)
+collision_layer = 3
+collision_mask = 3
 script = ExtResource("3_6c7wi")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World"]
+shape = SubResource("BoxShape3D_pag7o")
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="World"]
+mesh = SubResource("BoxMesh_aiqb3")
 
 [node name="Environment" type="WorldEnvironment" parent="World"]
 environment = SubResource("Environment_ir04n")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="World"]
-transform = Transform3D(0.969047, 0.135889, -0.20611, 0.245605, -0.446076, 0.860636, 0.0250105, -0.884619, -0.465644, 6.01247, 5.88253, -2.56848)
+transform = Transform3D(0.0242262, 0.00339724, -0.00515276, 0.00614013, -0.0111519, 0.0215159, 0.000625263, -0.0221155, -0.0116411, 0.150312, 0.147063, -0.064212)
 shadow_enabled = true
 
-[node name="Area3D" type="Area3D" parent="World"]
-collision_layer = 3
-collision_mask = 3
-
-[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Area3D"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
-shape = SubResource("BoxShape3D_pag7o")
-
-[connection signal="body_exited" from="World/Area3D" to="World" method="_on_area_3d_body_exited"]
+[connection signal="body_exited" from="World" to="World" method="_on_body_exited"]
