@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cegr6umrjlhre"]
+[gd_scene load_steps=9 format=3 uid="uid://cegr6umrjlhre"]
 
 [ext_resource type="PackedScene" uid="uid://dk7b0mdcmcarn" path="res://scenes/space_ship.tscn" id="2_epmte"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="3_6c7wi"]
@@ -31,14 +31,30 @@ tonemap_mode = 2
 ssr_fade_in = 0.0174944
 fog_enabled = true
 fog_light_color = Color(0.0980392, 0.105882, 0.160784, 1)
-fog_light_energy = 0.22
+fog_light_energy = 0.32
 fog_sun_scatter = 0.1
-fog_density = 0.0492
-fog_aerial_perspective = 0.007
+fog_density = 0.1014
+fog_aerial_perspective = 0.079
 fog_sky_affect = 0.66
+volumetric_fog_enabled = true
+volumetric_fog_density = 0.019
+volumetric_fog_albedo = Color(0.0980392, 0.105882, 0.160784, 1)
+volumetric_fog_anisotropy = 0.0
+volumetric_fog_length = 90000.0
+volumetric_fog_detail_spread = 6.0
+volumetric_fog_ambient_inject = 0.09
+volumetric_fog_sky_affect = 0.0
+
+[sub_resource type="CameraAttributesPractical" id="CameraAttributesPractical_5p44l"]
+exposure_multiplier = 1.403
+dof_blur_far_enabled = true
+dof_blur_far_distance = 3500.0
+dof_blur_far_transition = 2845.42
+dof_blur_near_distance = 0.3
+dof_blur_amount = 0.5
 
 [sub_resource type="BoxShape3D" id="BoxShape3D_pag7o"]
-size = Vector3(100, 100, 100)
+size = Vector3(500, 500, 500)
 
 [node name="Stage" type="Node3D"]
 
@@ -52,6 +68,7 @@ metadata/warp_layers = 3
 
 [node name="Environment" type="WorldEnvironment" parent="World"]
 environment = SubResource("Environment_ir04n")
+camera_attributes = SubResource("CameraAttributesPractical_5p44l")
 
 [node name="Area3D" type="Area3D" parent="World"]
 collision_layer = 3
