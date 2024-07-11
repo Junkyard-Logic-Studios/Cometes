@@ -63,7 +63,7 @@ size = Vector3(500, 500, 500)
 [node name="World" type="Node3D" parent="."]
 script = ExtResource("3_6c7wi")
 asteroid_scene = ExtResource("3_6hl20")
-number_of_asteroids = 8
+number_of_asteroids = 100
 metadata/warp_layers = 3
 
 [node name="Environment" type="WorldEnvironment" parent="World"]
