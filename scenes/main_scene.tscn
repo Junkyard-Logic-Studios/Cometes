@@ -11,8 +11,8 @@
 render_priority = 0
 shader = ExtResource("4_gt4jq")
 shader_parameter/worldSize = Vector3(100, 100, 100)
-shader_parameter/maxDistance = 300.0
-shader_parameter/maxSteps = 100
+shader_parameter/maxDistance = 1000.0
+shader_parameter/maxSteps = 15
 shader_parameter/minHitDistance = 0.01
 
 [sub_resource type="BoxMesh" id="BoxMesh_aiqb3"]
@@ -74,6 +74,7 @@ script = ExtResource("3_6c7wi")
 shape = SubResource("BoxShape3D_pag7o")
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="World"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -0.03, 0, -0.01)
 mesh = SubResource("BoxMesh_aiqb3")
 
 [node name="Environment" type="WorldEnvironment" parent="World"]

@@ -57,75 +57,15 @@ vec3 clampToWorld(vec3 pos)
 	return mod(pos + worldSize * 1.5, worldSize) - worldSize * 0.5;
 }
 
-float SDF_sphere(vec3 pos, vec3 spherePos, float radius)
-{
-	return length(clampToWorld(pos - spherePos)) - radius;
-}
-
-float SDF_box(vec3 pos, vec3 boxPos, vec3 boxSize)
-{
-	return length(max(abs(clampToWorld(pos - boxPos)) - boxSize, 0.0));
-}
-
-float SDF_tetrahedron(vec3 pos, vec3 tetrPos, float r)
-{
-	pos = clampToWorld(pos - tetrPos);
-	return (max(
-		max(-pos.x - pos.y, pos.x + pos.y) - pos.z,
-		max(-pos.x + pos.y, pos.x - pos.y) + pos.z
-	) - r) / sqrt(3.0);
-}
-
-float SDF_object(vec3 pos, object_t obj)
-{
-	switch (obj.type)
-	{
-		case 0: return SDF_sphere(pos, obj.pos, obj.size.x);
-		case 1: return SDF_box(pos, obj.pos, obj.size);
-		case 2: return SDF_tetrahedron(pos, obj.pos, obj.size.x);
-	}
-}
-
-float SDF_scene(vec3 pos)
-{
-	float m = 1e15;
-	for (int i = 0; i < n_objects; i++)
-		m = min(m, SDF_object(pos, objects[i]));
-	return m * (1.0 - minHitDistance);
-}
-
-float rayMarch(vec3 pos, vec3 dir)
-{
-	float td = 1e-10;
-	for (int s = 0; s < maxSteps; s++)
-	{
-		float d = SDF_scene(pos);
-		if (d < minHitDistance || td > maxDistance)
-			break;
-		pos += d * dir;
-		td += d;
-	}
-	return td;
-}
-
-vec3 pointNormal(vec3 pos)
-{
-	float dist = SDF_scene(pos);
-	return normalize(vec3(
-		SDF_scene(pos + vec3(minHitDistance, 0.0, 0.0)) - dist,
-		SDF_scene(pos + vec3(0.0, minHitDistance, 0.0)) - dist,
-		SDF_scene(pos + vec3(0.0, 0.0, minHitDistance)) - dist
-	));
-}
-
 float intersectSphere(vec3 pos, vec3 dir, vec3 spherePos, float radius)
 {
-	vec3 diff = clampToWorld(spherePos - pos);
+	//vec3 diff = clampToWorld(spherePos - pos);
+	vec3 diff = spherePos - pos;
 	float d = dot(diff, dir);
 	if (d < 0.0)
 		return infinity;
 	
-	vec3 pt = pos + d * dir - spherePos;
+	vec3 pt = diff - d * dir;
 	float t = dot(pt, pt);
 	float r = radius * radius - t;
 	
@@ -152,29 +92,36 @@ struct RayHitInfo
 {
 	float dist;
 	int objIndex;
+	vec3 pos;
 };
 
 RayHitInfo rayTrace(vec3 pos, vec3 dir)
 {
-	RayHitInfo hitInfo = RayHitInfo(infinity, -1);
+	float minDist = infinity;
+	int objIndex = -1;
+	
 	float td = 0.0;
-	for (int steps = 0; steps < 3/*maxSteps*/; steps++)
+	for (int steps = 0; steps < maxSteps; steps++)
 	{
 		for (int i = 0; i < n_objects; i++)
 		{
 			float dist = intersectObject(pos, dir, objects[i]);
-			if (dist < hitInfo.dist)
-				hitInfo = RayHitInfo(dist, i);
+			if (dist < minDist)
+			{
+				minDist = dist;
+				objIndex = i;
+			}
 		}
-		if (hitInfo.objIndex != -1)
+		if (objIndex != -1)
 			break;
-			
+		
 		float dist = intersectWorldBox(pos, dir);
 		pos = clampToWorld(pos + dist * dir);
 		pos += 0.01 * dir;
 		td += dist;
 	}
-	return hitInfo;
+	
+	return RayHitInfo(td + minDist, objIndex, pos + minDist * dir);
 }
 
 
@@ -195,7 +142,8 @@ void fragment()
 		discard;
 	
 	// point of intersection
-	vec3 hitPoint = rayOrigin + rayDirection * rayLength;
+	//vec3 hitPoint = rayOrigin + rayDirection * rayLength;
+	vec3 hitPoint = hit.pos;
 	
 	// basic shading
 	vec3 hitPointNormal = normalize(hitPoint - objects[hit.objIndex].pos);
@@ -208,6 +156,7 @@ void fragment()
 	depth = clipSpaceHitPoint.z / clipSpaceHitPoint.w;
 
 	DEPTH = depth < 0.0 ? 1.0 : depth;
+	DEPTH = 0.0;
 }
 
 
