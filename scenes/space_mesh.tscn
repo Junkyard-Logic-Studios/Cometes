@@ -1,6 +1,0 @@
-[gd_scene load_steps=2 format=3 uid="uid://crbv1xffhd0yp"]
-
-[ext_resource type="Script" path="res://SpaceMesh.gd" id="1_vsgrq"]
-
-[node name="SpaceMesh" type="Node3D"]
-script = ExtResource("1_vsgrq")

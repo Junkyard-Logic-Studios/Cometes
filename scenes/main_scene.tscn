@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://cegr6umrjlhre"]
 
-[ext_resource type="PackedScene" uid="uid://dk7b0mdcmcarn" path="res://scenes/space_ship.tscn" id="2_epmte"]
+[ext_resource type="PackedScene" uid="uid://bq1enqgn0odw4" path="res://scenes/space_ship.tscn" id="2_epmte"]
 [ext_resource type="Script" path="res://scripts/world.gd" id="3_6c7wi"]
-[ext_resource type="PackedScene" uid="uid://b6k5scku45261" path="res://scenes/asteroid.tscn" id="3_6hl20"]
+[ext_resource type="PackedScene" uid="uid://c3eiahv53bob1" path="res://scenes/asteroid.tscn" id="3_6hl20"]
 
 [sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_c7wv5"]
 sky_top_color = Color(0, 0, 0, 1)
@@ -42,12 +42,9 @@ size = Vector3(100, 100, 100)
 
 [node name="Stage" type="Node3D"]
 
-[node name="SpaceShip" parent="." instance=ExtResource("2_epmte")]
-
 [node name="World" type="Node3D" parent="."]
 script = ExtResource("3_6c7wi")
 asteroid_scene = ExtResource("3_6hl20")
-number_of_asteroids = 8
 metadata/warp_layers = 3
 
 [node name="Environment" type="WorldEnvironment" parent="World"]
@@ -63,5 +60,7 @@ shape = SubResource("BoxShape3D_pag7o")
 
 [node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
 transform = Transform3D(0.969047, 0.135889, -0.20611, 0.230763, -0.20192, 0.951828, 0.0877255, -0.969929, -0.227028, 6.012, 1000, -2.568)
+
+[node name="SpaceShip" parent="." instance=ExtResource("2_epmte")]
 
 [connection signal="body_exited" from="World/Area3D" to="World" method="_on_area_3d_body_exited"]

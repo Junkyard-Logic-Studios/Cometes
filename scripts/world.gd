@@ -20,8 +20,19 @@ func _ready():
 			randf()-0.5
 		) * shape_size + area_shape.global_position
 		
+		asteroid.initialize()
+		
 		# add it to the scene
 		add_child(asteroid)
+
+
+func _process(_delta):
+	#print(Performance.get_monitor(Performance.TIME_FPS))
+	#print(Performance.get_monitor(Performance.RENDER_TOTAL_OBJECTS_IN_FRAME))
+	#print(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
+	#print(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
+	#print()
+	pass
 
 
 func _on_area_3d_body_exited(body):

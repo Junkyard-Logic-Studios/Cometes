@@ -2,20 +2,24 @@ extends RigidBody3D
 
 
 # properties
-@export_range(0, 100, 2) var speed: float = 50
+@export_range(0, 200, 4) var speed: float = 100
 
 
-# initialize object at given position and start it moving in the given direction
-func initialize(pos, dir):
-	look_at_from_position(pos, pos + dir, Vector3.UP)
-	linear_velocity = dir * speed
+# initialize laser at given position and start it moving in the given direction
+func initialize(pos, vel, dir):
+	linear_velocity = vel + dir * speed
+	look_at_from_position(pos, pos + linear_velocity, Vector3.UP)
+	contact_monitor = true
+	max_contacts_reported = 1
 
 
-# destroy object once lifetime runs out
+# destroy laser once lifetime runs out
 func _on_lifetime_timeout():
 	queue_free()
 
 
-# destroy object when it hits another object
-func _on_area_3d_body_entered(_body):
+# destroy laser when it hits another object
+func _on_body_entered(body):
 	queue_free()
+	if body.has_method("hit"):
+		body.hit(400)

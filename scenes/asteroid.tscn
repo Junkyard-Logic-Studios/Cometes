@@ -1,93 +1,21 @@
-[gd_scene load_steps=7 format=3 uid="uid://b6k5scku45261"]
+[gd_scene load_steps=5 format=3 uid="uid://c3eiahv53bob1"]
 
-[ext_resource type="PackedScene" uid="uid://crbv1xffhd0yp" path="res://scenes/space_mesh.tscn" id="1_dus42"]
+[ext_resource type="Script" path="res://scripts/asteroid.gd" id="1_owika"]
+[ext_resource type="PackedScene" uid="uid://cvamjab6dffj2" path="res://models/asteroid/asteroid_1.tscn" id="2_7oul5"]
+[ext_resource type="Script" path="res://scripts/visual_loop.gd" id="3_jnm08"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_55i7m"]
-radius = 1.0
-
-[sub_resource type="Shader" id="Shader_6rxih"]
-code = "// NOTE: Shader automatically converted from Godot Engine 4.2.2.stable.mono's StandardMaterial3D.
-
-shader_type spatial;
-render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx;
-uniform vec4 albedo : source_color;
-uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
-uniform float point_size : hint_range(0,128);
-uniform float roughness : hint_range(0,1);
-uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
-uniform vec4 metallic_texture_channel;
-uniform sampler2D texture_roughness : hint_roughness_r,filter_linear_mipmap,repeat_enable;
-uniform float specular;
-uniform float metallic;
-uniform vec3 uv1_scale;
-uniform vec3 uv1_offset;
-uniform vec3 uv2_scale;
-uniform vec3 uv2_offset;
-
-
-void vertex() {
-	UV=UV*uv1_scale.xy+uv1_offset.xy;
-}
-
-
-
-
-
-
-void fragment() {
-	vec2 base_uv = UV;
-	vec4 albedo_tex = texture(texture_albedo,base_uv);
-	ALBEDO = albedo.rgb * albedo_tex.rgb;
-	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
-	METALLIC = metallic_tex * metallic;
-	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
-	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
-	ROUGHNESS = roughness_tex * roughness;
-	SPECULAR = specular;
-}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_od7we"]
-render_priority = 0
-shader = SubResource("Shader_6rxih")
-shader_parameter/albedo = Color(0.439049, 0.439049, 0.439049, 1)
-shader_parameter/point_size = 1.0
-shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
-
-[sub_resource type="SphereMesh" id="SphereMesh_qxggh"]
-material = SubResource("ShaderMaterial_od7we")
-radius = 1.0
-height = 2.0
-radial_segments = 24
-rings = 16
-
-[sub_resource type="SphereMesh" id="SphereMesh_wipqv"]
-radius = 1.0
-height = 2.0
-radial_segments = 32
-rings = 16
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tpb6i"]
+points = PackedVector3Array(1.48627, -0.487969, 0.0936211, -1.05253, 0.346024, -0.0244923, -1.07131, 0.351305, 0.0538405, 0.00259267, 1.28046, 0.0939838, 0.562854, 0.152285, -0.9833, 0.20375, -1.11708, 0.727779, 0.560542, 0.269941, 1.0843, -0.191461, -0.718333, -0.73666, -0.673518, 0.551043, -0.823584, 1.23625, -0.801302, -0.303351, -0.272379, 0.627606, 0.847347, -0.467479, -0.678132, 0.685453, 1.4417, -0.0867108, 0.373194, 0.804813, -1.2492, 0.414299, -0.624031, -0.795655, -0.0641758, 0.790777, 0.383956, -0.767987, 0.80045, -0.24568, 1.08828, -0.993678, 0.870914, -0.0656397, -0.51176, -0.24557, -0.900573, 0.284216, -1.29561, 0.29527, 0.842079, -0.246336, -0.903638, -0.113874, -0.721494, 0.927074, 1.12172, 0.117826, 0.846428, -0.549584, 0.825444, -0.659989, 0.750199, 0.656168, -0.258243, 1.35686, -0.722582, 0.292266, 0.164319, 1.17284, 0.250474, -0.313764, -1.08183, 0.133276, -0.27896, 1.28041, -0.0264431, 0.0847025, 0.786169, 0.847036, -1.02845, 0.509338, -0.343549, -0.275698, -0.286807, -0.985032)
 
 [node name="Asteroid" type="RigidBody3D"]
-collision_layer = 3
-collision_mask = 3
 mass = 1000.0
 gravity_scale = 0.0
+linear_damp_mode = 1
+angular_damp_mode = 1
+script = ExtResource("1_owika")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-shape = SubResource("SphereShape3D_55i7m")
+shape = SubResource("ConvexPolygonShape3D_tpb6i")
 
-[node name="Pivot" type="Node3D" parent="."]
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="Pivot"]
-mesh = SubResource("SphereMesh_qxggh")
-
-[node name="SpaceMesh" parent="Pivot" instance=ExtResource("1_dus42")]
-mesh = SubResource("SphereMesh_wipqv")
-color = Color(0.439216, 0.439216, 0.439216, 1)
+[node name="Asteroid_1" parent="." instance=ExtResource("2_7oul5")]
+script = ExtResource("3_jnm08")
