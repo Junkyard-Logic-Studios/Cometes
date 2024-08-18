@@ -27,11 +27,11 @@ func _ready():
 
 
 func _process(_delta):
-	#print(Performance.get_monitor(Performance.TIME_FPS))
-	#print(Performance.get_monitor(Performance.RENDER_TOTAL_OBJECTS_IN_FRAME))
-	#print(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
-	#print(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
-	#print()
+	print(Performance.get_monitor(Performance.TIME_FPS))
+	print(Performance.get_monitor(Performance.RENDER_TOTAL_OBJECTS_IN_FRAME))
+	print(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
+	print(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
+	print()
 	pass
 
 

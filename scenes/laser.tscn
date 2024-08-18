@@ -1,86 +1,46 @@
-[gd_scene load_steps=7 format=3 uid="uid://dxx10vdgr7ufa"]
+[gd_scene load_steps=10 format=3 uid="uid://dxx10vdgr7ufa"]
 
 [ext_resource type="Script" path="res://scripts/laser.gd" id="1_08pum"]
-[ext_resource type="Script" path="res://scripts/visual_loop.gd" id="2_hhldp"]
-
-[sub_resource type="Shader" id="Shader_srbs2"]
-code = "// NOTE: Shader automatically converted from Godot Engine 4.2.2.stable.mono's StandardMaterial3D.
-
-shader_type spatial;
-render_mode blend_mix,depth_draw_opaque,cull_back,diffuse_burley,specular_schlick_ggx,unshaded;
-uniform vec4 albedo : source_color;
-uniform sampler2D texture_albedo : source_color,filter_linear_mipmap,repeat_enable;
-uniform float point_size : hint_range(0,128);
-uniform float roughness : hint_range(0,1);
-uniform sampler2D texture_metallic : hint_default_white,filter_linear_mipmap,repeat_enable;
-uniform vec4 metallic_texture_channel;
-uniform sampler2D texture_roughness : hint_roughness_r,filter_linear_mipmap,repeat_enable;
-uniform float specular;
-uniform float metallic;
-uniform vec3 uv1_scale;
-uniform vec3 uv1_offset;
-uniform vec3 uv2_scale;
-uniform vec3 uv2_offset;
-
-
-void vertex() {
-	UV=UV*uv1_scale.xy+uv1_offset.xy;
-}
-
-
-
-
-
-
-void fragment() {
-	vec2 base_uv = UV;
-	vec4 albedo_tex = texture(texture_albedo,base_uv);
-	ALBEDO = albedo.rgb * albedo_tex.rgb;
-	float metallic_tex = dot(texture(texture_metallic,base_uv),metallic_texture_channel);
-	METALLIC = metallic_tex * metallic;
-	vec4 roughness_texture_channel = vec4(1.0,0.0,0.0,0.0);
-	float roughness_tex = dot(texture(texture_roughness,base_uv),roughness_texture_channel);
-	ROUGHNESS = roughness_tex * roughness;
-	SPECULAR = specular;
-}
-"
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_6puay"]
-render_priority = 0
-shader = SubResource("Shader_srbs2")
-shader_parameter/albedo = Color(1, 0.470588, 0, 1)
-shader_parameter/point_size = 1.0
-shader_parameter/roughness = 1.0
-shader_parameter/metallic_texture_channel = null
-shader_parameter/specular = 0.5
-shader_parameter/metallic = 0.0
-shader_parameter/uv1_scale = Vector3(1, 1, 1)
-shader_parameter/uv1_offset = Vector3(0, 0, 0)
-shader_parameter/uv2_scale = Vector3(1, 1, 1)
-shader_parameter/uv2_offset = Vector3(0, 0, 0)
-
-[sub_resource type="CapsuleMesh" id="CapsuleMesh_0mjbx"]
-material = SubResource("ShaderMaterial_6puay")
-radius = 0.08
-height = 1.5
-radial_segments = 8
-rings = 2
+[ext_resource type="Shader" path="res://materials/laser.gdshader" id="3_ivnq7"]
+[ext_resource type="Script" path="res://scripts/visual_multimesh.gd" id="4_rf40x"]
 
 [sub_resource type="CylinderShape3D" id="CylinderShape3D_dfwty"]
 height = 1.0
 radius = 0.1
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hh578"]
+render_priority = 0
+shader = ExtResource("3_ivnq7")
+shader_parameter/warps = 2
+shader_parameter/world_size = Vector3(40, 40, 40)
+shader_parameter/color = Vector3(2, 1, 0.5)
+shader_parameter/innerRadius = 0.03
+shader_parameter/outerRadius = 0.3
+
+[sub_resource type="PrismMesh" id="PrismMesh_g55cb"]
+material = SubResource("ShaderMaterial_hh578")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_73rfy"]
+render_priority = 0
+shader = ExtResource("3_ivnq7")
+shader_parameter/warps = 125
+shader_parameter/world_size = Vector3(40, 40, 40)
+shader_parameter/color = Vector3(2, 1, 0.5)
+shader_parameter/innerRadius = 0.03
+shader_parameter/outerRadius = 0.3
+
+[sub_resource type="PrismMesh" id="PrismMesh_s06s3"]
+material = SubResource("ShaderMaterial_73rfy")
+
+[sub_resource type="MultiMesh" id="MultiMesh_spn8d"]
+transform_format = 1
+mesh = SubResource("PrismMesh_s06s3")
 
 [node name="Laser" type="RigidBody3D"]
 mass = 0.01
 gravity_scale = 0.0
 linear_damp_mode = 1
 script = ExtResource("1_08pum")
-
-[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
-mesh = SubResource("CapsuleMesh_0mjbx")
-skeleton = NodePath("../..")
-script = ExtResource("2_hhldp")
 
 [node name="CollisionShape3D" type="CollisionShape3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, -4.37114e-08, -1, 0, 1, -4.37114e-08, 0, 0, 0)
@@ -95,6 +55,17 @@ light_energy = 5.382
 wait_time = 2.0
 one_shot = true
 autostart = true
+
+[node name="MeshInstance3D" type="MeshInstance3D" parent="."]
+transform = Transform3D(0.970347, 0, 0, 0, 0.765002, 0, 0, 0, 1.86785, 0, -0.000836879, 0)
+visible = false
+mesh = SubResource("PrismMesh_g55cb")
+
+[node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]
+transform = Transform3D(0.97, 0, 0, 0, 0.765, 0, 0, 0, 1.868, 0, 0, 0)
+extra_cull_margin = 100.0
+multimesh = SubResource("MultiMesh_spn8d")
+script = ExtResource("4_rf40x")
 
 [connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="Lifetime" to="." method="_on_lifetime_timeout"]
