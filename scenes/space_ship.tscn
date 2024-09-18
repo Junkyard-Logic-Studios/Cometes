@@ -1,15 +1,12 @@
-[gd_scene load_steps=12 format=3 uid="uid://bq1enqgn0odw4"]
+[gd_scene load_steps=11 format=3 uid="uid://bq1enqgn0odw4"]
 
 [ext_resource type="Script" path="res://scripts/space_ship.gd" id="1_fjdmo"]
 [ext_resource type="PackedScene" uid="uid://dxx10vdgr7ufa" path="res://scenes/laser.tscn" id="2_v8ax5"]
-[ext_resource type="ArrayMesh" uid="uid://b2pd1v64yb0au" path="res://models/Spacecraft_comete.obj" id="3_r6kpr"]
+[ext_resource type="PackedScene" uid="uid://bk285rjdwy53f" path="res://models/space_ship/space_ship_1.tscn" id="3_abhat"]
 [ext_resource type="Script" path="res://scripts/visual_loop.gd" id="4_ht8p1"]
 
-[sub_resource type="SphereShape3D" id="SphereShape3D_p0r12"]
-radius = 0.599621
-
-[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_0e18k"]
-albedo_color = Color(0, 0.666667, 0.607843, 1)
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tu5s4"]
+points = PackedVector3Array(0, 0, 7, 0, 1.4, -0.8, 0, 1.3, 1.8, -4.5, -1.2, -0.1, -4.5, -1.2, 0.7, 4.5, -1.2, -0.1, 4.5, -1.2, 0.7, 0.6, 0.8, -3.5, -0.6, 0.8, -3.5, 0.6, -0.3, -3.5, -0.6, -0.3, -3.5)
 
 [sub_resource type="SystemFont" id="SystemFont_l6550"]
 subpixel_positioning = 0
@@ -33,43 +30,38 @@ text = "100
 "
 
 [node name="SpaceShip" type="RigidBody3D"]
-mass = 100.0
+mass = 1000.0
 gravity_scale = 0.0
 can_sleep = false
 angular_damp = 3.0
 script = ExtResource("1_fjdmo")
 linear_max_speed = 30.0
-rotational_torque = 50.0
+rotational_torque = 75000.0
 laser_scene = ExtResource("2_v8ax5")
 
-[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0.0602649)
-shape = SubResource("SphereShape3D_p0r12")
+[node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_tu5s4")
+
+[node name="space_ship_1" parent="." instance=ExtResource("3_abhat")]
+script = ExtResource("4_ht8p1")
 
 [node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 3.24475e-14, 8.74228e-08, 2.26267e-08, 0.965926, 0.258819, -8.44439e-08, 0.258819, -0.965926, 0, 1.38392, -4.33)
-
-[node name="SpacecraftComete" type="MeshInstance3D" parent="."]
-transform = Transform3D(-3.49691e-09, 0, -0.08, 0, 0.08, 0, 0.08, 0, -3.49691e-09, 0.004, -0.73, 0.3)
-material_override = SubResource("StandardMaterial3D_0e18k")
-gi_mode = 2
-mesh = ExtResource("3_r6kpr")
-skeleton = NodePath("../..")
-script = ExtResource("4_ht8p1")
+transform = Transform3D(-1, 1.51493e-08, 8.61002e-08, 2.26267e-08, 0.996163, 0.0875208, -8.44439e-08, 0.0875208, -0.996163, 1.2894e-06, 3.06441, -8.44659)
+fov = 90.0
 
 [node name="Gun" type="Node3D" parent="."]
 
 [node name="SpawnPoint" type="Marker3D" parent="Gun"]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 1.5)
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 8.27891)
 
 [node name="FiringTimer" type="Timer" parent="Gun"]
-wait_time = 0.25
+wait_time = 0.15
 
 [node name="UI" type="Node3D" parent="."]
-transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.0312259, -0.258885, -0.565734)
+transform = Transform3D(1, 0, 0, 0, 0.987469, 0.157813, 0, -0.157813, 0.987469, 0, 1.38387, -4.53)
 
 [node name="Hp_Display" type="MeshInstance3D" parent="UI"]
-transform = Transform3D(-1, 0, -8.74228e-08, -4.37114e-08, 0.866025, 0.5, 7.57103e-08, 0.5, -0.866025, -0.00348926, 0.897804, -0.254664)
+transform = Transform3D(-1, 0, -8.74228e-08, -4.37114e-08, 0.866025, 0.5, 7.57103e-08, 0.5, -0.866025, 0, 0.85, -0.262)
 cast_shadow = 0
 mesh = SubResource("TextMesh_nqy8w")
 

@@ -12,7 +12,7 @@ radius = 0.1
 render_priority = 0
 shader = ExtResource("3_ivnq7")
 shader_parameter/warps = 2
-shader_parameter/world_size = Vector3(40, 40, 40)
+shader_parameter/world_size = Vector3(0, 0, 0)
 shader_parameter/color = Vector3(2, 1, 0.5)
 shader_parameter/innerRadius = 0.03
 shader_parameter/outerRadius = 0.3
@@ -58,7 +58,6 @@ autostart = true
 
 [node name="MeshInstance3D" type="MeshInstance3D" parent="."]
 transform = Transform3D(0.970347, 0, 0, 0, 0.765002, 0, 0, 0, 1.86785, 0, -0.000836879, 0)
-visible = false
 mesh = SubResource("PrismMesh_g55cb")
 
 [node name="MultiMeshInstance3D" type="MultiMeshInstance3D" parent="."]

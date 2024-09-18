@@ -3,13 +3,13 @@
 importer="scene"
 importer_version=1
 type="PackedScene"
-uid="uid://b4alkiitqc1ro"
-path="res://.godot/imported/Spacecraft_comete.gltf-72cd17f01bcab985b420be2641bd35cc.scn"
+uid="uid://ds3gwix43k6sd"
+path="res://.godot/imported/space_ship_1.glb-d724a667e599eef5b0f8ba1493226ecb.scn"
 
 [deps]
 
-source_file="res://models/Spacecraft_comete.gltf"
-dest_files=["res://.godot/imported/Spacecraft_comete.gltf-72cd17f01bcab985b420be2641bd35cc.scn"]
+source_file="res://models/space_ship/space_ship_1.glb"
+dest_files=["res://.godot/imported/space_ship_1.glb-d724a667e599eef5b0f8ba1493226ecb.scn"]
 
 [params]
 

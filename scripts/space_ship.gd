@@ -2,10 +2,11 @@ extends RigidBody3D
 
 
 # properties
-@export_range(0, 1000, 20) var thrust: float = 300
+@export_range(0, 10000, 20) var thrust: float = 3000
 @export_range(0, 100, 2) var linear_max_speed: float = 10
-@export_range(0, 100, 2) var rotational_torque: float = 30
+@export_range(0, 250000, 5000) var rotational_torque: float = 100000
 @export var laser_scene: PackedScene
+@export_range(0, 0.2, 0.005) var gun_spread: float = 0.015
 
 
 # update movement based on inputs
@@ -42,7 +43,8 @@ func _on_firing_timer_timeout():
 	var laser = laser_scene.instantiate()
 	
 	# initialize laser to spawn point position and facing forward from the ship
-	laser.initialize($Gun/SpawnPoint.global_position, linear_velocity, basis * Vector3.BACK)
+	var dir = basis * Vector3.BACK + Vector3(randf()-.5, randf()-.5, randf()-.5) * gun_spread
+	laser.initialize($Gun/SpawnPoint.global_position, linear_velocity, dir.normalized())
 	
 	# spawn it into the scene independently
 	get_tree().root.add_child(laser)

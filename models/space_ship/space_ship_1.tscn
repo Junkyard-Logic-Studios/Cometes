@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://bk285rjdwy53f"]
+
+[ext_resource type="PackedScene" uid="uid://ds3gwix43k6sd" path="res://models/space_ship/space_ship_1.glb" id="1_p530x"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_k3nxp"]
+albedo_color = Color(0, 0.10409, 0.220307, 1)
+metallic = 0.5
+metallic_specular = 0.2
+roughness = 0.8
+
+[node name="space_ship_1" instance=ExtResource("1_p530x")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.195363, 0)
+
+[node name="Spaceship" parent="." index="0"]
+transform = Transform3D(-0.2, -3.91654e-08, 7.64274e-16, 0, -1.95827e-08, -0.2, 1.74846e-08, -0.448, 8.74228e-09, -1.70923e-06, -0.2, 5.87937)
+surface_material_override/0 = SubResource("StandardMaterial3D_k3nxp")
