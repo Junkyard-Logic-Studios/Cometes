@@ -27,11 +27,11 @@ func _ready():
 
 
 func _process(_delta):
-	print(Performance.get_monitor(Performance.TIME_FPS))
-	print(Performance.get_monitor(Performance.RENDER_TOTAL_OBJECTS_IN_FRAME))
-	print(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
-	print(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
-	print()
+	#print(Performance.get_monitor(Performance.TIME_FPS))
+	#print(Performance.get_monitor(Performance.RENDER_TOTAL_OBJECTS_IN_FRAME))
+	#print(Performance.get_monitor(Performance.RENDER_TOTAL_DRAW_CALLS_IN_FRAME))
+	#print(Performance.get_monitor(Performance.RENDER_TOTAL_PRIMITIVES_IN_FRAME))
+	#print()
 	pass
 
 
@@ -44,6 +44,7 @@ func _on_area_3d_body_exited(body):
 	var shape_size = (area_shape.shape as BoxShape3D).size
 	
 	# transform body position to box local space
+	var displacement = -body.global_position
 	var pos = area_shape.to_local(body.position)
 	
 	# clamp position to box extents
@@ -55,3 +56,6 @@ func _on_area_3d_body_exited(body):
 	
 	# transform body position back to global space
 	body.position = area_shape.to_global(pos)
+	displacement += body.global_position
+	
+	print("warp - ", body)

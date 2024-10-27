@@ -1,9 +1,10 @@
-[gd_scene load_steps=11 format=3 uid="uid://bq1enqgn0odw4"]
+[gd_scene load_steps=12 format=3 uid="uid://bq1enqgn0odw4"]
 
 [ext_resource type="Script" path="res://scripts/space_ship.gd" id="1_fjdmo"]
 [ext_resource type="PackedScene" uid="uid://dxx10vdgr7ufa" path="res://scenes/laser.tscn" id="2_v8ax5"]
 [ext_resource type="PackedScene" uid="uid://bk285rjdwy53f" path="res://models/space_ship/space_ship_1.tscn" id="3_abhat"]
 [ext_resource type="Script" path="res://scripts/visual_loop.gd" id="4_ht8p1"]
+[ext_resource type="PackedScene" uid="uid://b3uihmnft57i5" path="res://scenes/custom_camera.tscn" id="5_artq5"]
 
 [sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tu5s4"]
 points = PackedVector3Array(0, 0, 7, 0, 1.4, -0.8, 0, 1.3, 1.8, -4.5, -1.2, -0.1, -4.5, -1.2, 0.7, 4.5, -1.2, -0.1, 4.5, -1.2, 0.7, 0.6, 0.8, -3.5, -0.6, 0.8, -3.5, 0.6, -0.3, -3.5, -0.6, -0.3, -3.5)
@@ -35,8 +36,9 @@ gravity_scale = 0.0
 can_sleep = false
 angular_damp = 3.0
 script = ExtResource("1_fjdmo")
+thrust = 4960.0
 linear_max_speed = 30.0
-rotational_torque = 75000.0
+rotational_torque = 65000.0
 laser_scene = ExtResource("2_v8ax5")
 
 [node name="CollisionShape3D2" type="CollisionShape3D" parent="."]
@@ -45,9 +47,8 @@ shape = SubResource("ConvexPolygonShape3D_tu5s4")
 [node name="space_ship_1" parent="." instance=ExtResource("3_abhat")]
 script = ExtResource("4_ht8p1")
 
-[node name="Camera3D" type="Camera3D" parent="."]
-transform = Transform3D(-1, 1.51493e-08, 8.61002e-08, 2.26267e-08, 0.996163, 0.0875208, -8.44439e-08, 0.0875208, -0.996163, 1.2894e-06, 3.06441, -8.44659)
-fov = 90.0
+[node name="CustomCamera" parent="." instance=ExtResource("5_artq5")]
+transform = Transform3D(-1, 7.6194e-09, -8.70901e-08, 0, 0.996195, 0.0871557, 8.74228e-08, 0.0871557, -0.996195, 4.90959e-08, 3.01487, -7.88541)
 
 [node name="Gun" type="Node3D" parent="."]
 
@@ -59,6 +60,7 @@ wait_time = 0.15
 
 [node name="UI" type="Node3D" parent="."]
 transform = Transform3D(1, 0, 0, 0, 0.987469, 0.157813, 0, -0.157813, 0.987469, 0, 1.38387, -4.53)
+visible = false
 
 [node name="Hp_Display" type="MeshInstance3D" parent="UI"]
 transform = Transform3D(-1, 0, -8.74228e-08, -4.37114e-08, 0.866025, 0.5, 7.57103e-08, 0.5, -0.866025, 0, 0.85, -0.262)
@@ -69,5 +71,17 @@ mesh = SubResource("TextMesh_nqy8w")
 transform = Transform3D(-1, 4.37114e-08, 7.57103e-08, 7.57103e-08, 0.866025, 0.5, -4.37114e-08, 0.5, -0.866025, 0, 0.805231, -0.362548)
 cast_shadow = 0
 mesh = SubResource("TextMesh_yy0xj")
+
+[node name="LightThrusterCenter" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0.17217, -3.48846)
+omni_range = 0.951691
+
+[node name="LightThrusterRight" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -2.08397, -0.240646, -2.34109)
+omni_range = 0.618876
+
+[node name="LightThrusterLeft" type="OmniLight3D" parent="."]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 1.98191, -0.304172, -2.341)
+omni_range = 0.664241
 
 [connection signal="timeout" from="Gun/FiringTimer" to="." method="_on_firing_timer_timeout"]

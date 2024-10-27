@@ -81,6 +81,7 @@ float rayLineSegmentDistance(inout vec3 rP, vec3 rD, vec3 lS, vec3 lE)
 
 float distanceToBrightness(float d, float minD, float maxD)
 {
+	if (d < minD) return 1.0;
 	d = (d - minD) / (maxD - minD);
 	float f = pow(2.71828182846, -6. * d) - .00247875217;
 	return max(f, .0);
@@ -94,7 +95,7 @@ void fragment()
 	vec3 rayPoint = rayOrigin;
 	float d = rayLineSegmentDistance(rayPoint, rayDirection, p1, p2);
 	ALPHA = distanceToBrightness(d, innerRadius, outerRadius);
-	ALBEDO = color;
+	ALBEDO = 2. * color;
 	
 	// calculate depth
 	float depth = DEPTH;

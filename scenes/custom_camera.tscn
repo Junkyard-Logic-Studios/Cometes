@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://b3uihmnft57i5"]
+
+[ext_resource type="Script" path="res://scripts/camera.gd" id="1_hrvrp"]
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_lvvd8"]
+offset = Vector3(1, 1, 1)
+fractal_octaves = 4
+
+[node name="CustomCamera" type="Marker3D"]
+script = ExtResource("1_hrvrp")
+position_weight = 0.6
+rotation_weight = 0.7
+trauma_reduction_rate = 2.0
+trauma_noise = SubResource("FastNoiseLite_lvvd8")
+noise_speed = 1.0
+max_trauma = Vector3(3, 3, 3)
+
+[node name="Camera3D" type="Camera3D" parent="."]
+fov = 90.0
