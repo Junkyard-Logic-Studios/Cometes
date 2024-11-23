@@ -27,7 +27,8 @@ func _process(delta):
 
 
 func update_rotation(delta: float):
-	var rot = prev_rotation.slerp(Quaternion(global_basis), 1. - rotation_weight * delta * 60.)
+	var weight = 1 - rotation_weight * clamp(delta * 60., 0., 1.)
+	var rot = prev_rotation.slerp(Quaternion(global_basis), weight).normalized()
 	prev_rotation = rot
 	camera.global_basis = Basis(rot)
 
