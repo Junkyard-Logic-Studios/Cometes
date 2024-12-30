@@ -29,9 +29,9 @@ func _physics_process(delta):
 	
 	# get rotation inputs
 	var rotation_axis = Vector3(
-		-1 if Input.is_action_pressed("tilt_up") else 1 if Input.is_action_pressed("tilt_down") else 0,
-		1 if Input.is_action_pressed("yaw_left") else -1 if Input.is_action_pressed("yaw_right") else 0,
-		-1 if Input.is_action_pressed("roll_left") else 1 if Input.is_action_pressed("roll_right") else 0
+		Input.get_axis("tilt_up", "tilt_down"),
+		Input.get_axis("yaw_right", "yaw_left"),
+		Input.get_axis("roll_left", "roll_right")
 	)
 	
 	# apply rotation

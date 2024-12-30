@@ -49,6 +49,7 @@ script = ExtResource("4_ht8p1")
 
 [node name="CustomCamera" parent="." instance=ExtResource("5_artq5")]
 transform = Transform3D(-1, 7.6194e-09, -8.70901e-08, 0, 0.996195, 0.0871557, 8.74228e-08, 0.0871557, -0.996195, 4.90959e-08, 3.01487, -7.88541)
+position_weight = 0.5
 
 [node name="Gun" type="Node3D" parent="."]
 
