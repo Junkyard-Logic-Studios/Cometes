@@ -1,0 +1,66 @@
+[gd_scene load_steps=8 format=3 uid="uid://cegr6umrjlhre"]
+
+[ext_resource type="PackedScene" uid="uid://bq1enqgn0odw4" path="res://scenes/space_ship.tscn" id="2_epmte"]
+[ext_resource type="Script" path="res://scripts/world.gd" id="3_6c7wi"]
+[ext_resource type="PackedScene" uid="uid://c3eiahv53bob1" path="res://scenes/asteroid.tscn" id="3_6hl20"]
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_c7wv5"]
+sky_top_color = Color(0, 0, 0, 1)
+sky_horizon_color = Color(0.0966197, 0.10782, 0.160942, 1)
+sky_curve = 0.117688
+sky_energy_multiplier = 2.0
+ground_bottom_color = Color(0, 0, 0, 1)
+ground_horizon_color = Color(0.0980392, 0.105882, 0.160784, 1)
+ground_curve = 0.0118921
+ground_energy_multiplier = 2.0
+sun_angle_max = 2.59
+sun_curve = 0.106066
+
+[sub_resource type="Sky" id="Sky_gn1d4"]
+sky_material = SubResource("ProceduralSkyMaterial_c7wv5")
+process_mode = 1
+
+[sub_resource type="Environment" id="Environment_ir04n"]
+background_mode = 2
+sky = SubResource("Sky_gn1d4")
+ambient_light_source = 1
+ambient_light_color = Color(0.0980392, 0.105882, 0.160784, 1)
+ambient_light_sky_contribution = 0.11
+reflected_light_source = 2
+tonemap_mode = 2
+ssr_fade_in = 0.0174944
+fog_enabled = true
+fog_light_color = Color(0.0980392, 0.105882, 0.160784, 1)
+fog_light_energy = 0.22
+fog_sun_scatter = 0.1
+fog_density = 0.0492
+fog_aerial_perspective = 0.007
+fog_sky_affect = 0.66
+
+[sub_resource type="BoxShape3D" id="BoxShape3D_pag7o"]
+size = Vector3(100, 100, 100)
+
+[node name="Stage" type="Node3D"]
+
+[node name="World" type="Node3D" parent="."]
+script = ExtResource("3_6c7wi")
+asteroid_scene = ExtResource("3_6hl20")
+metadata/warp_layers = 4
+
+[node name="Environment" type="WorldEnvironment" parent="World"]
+environment = SubResource("Environment_ir04n")
+
+[node name="Area3D" type="Area3D" parent="World"]
+collision_layer = 3
+collision_mask = 3
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="World/Area3D"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, 0.5, 0.5, 0.5)
+shape = SubResource("BoxShape3D_pag7o")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.969047, 0.135889, -0.20611, 0.230763, -0.20192, 0.951828, 0.0877255, -0.969929, -0.227028, 6.012, 1000, -2.568)
+
+[node name="SpaceShip" parent="." instance=ExtResource("2_epmte")]
+
+[connection signal="body_exited" from="World/Area3D" to="World" method="_on_area_3d_body_exited"]

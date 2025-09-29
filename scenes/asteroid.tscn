@@ -1,0 +1,21 @@
+[gd_scene load_steps=5 format=3 uid="uid://c3eiahv53bob1"]
+
+[ext_resource type="Script" path="res://scripts/asteroid.gd" id="1_owika"]
+[ext_resource type="PackedScene" uid="uid://cvamjab6dffj2" path="res://models/asteroid/asteroid_1.tscn" id="2_7oul5"]
+[ext_resource type="Script" path="res://scripts/visual_loop.gd" id="3_jnm08"]
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_tpb6i"]
+points = PackedVector3Array(1.48627, -0.487969, 0.0936211, -1.05253, 0.346024, -0.0244923, -1.07131, 0.351305, 0.0538405, 0.00259267, 1.28046, 0.0939838, 0.562854, 0.152285, -0.9833, 0.20375, -1.11708, 0.727779, 0.560542, 0.269941, 1.0843, -0.191461, -0.718333, -0.73666, -0.673518, 0.551043, -0.823584, 1.23625, -0.801302, -0.303351, -0.272379, 0.627606, 0.847347, -0.467479, -0.678132, 0.685453, 1.4417, -0.0867108, 0.373194, 0.804813, -1.2492, 0.414299, -0.624031, -0.795655, -0.0641758, 0.790777, 0.383956, -0.767987, 0.80045, -0.24568, 1.08828, -0.993678, 0.870914, -0.0656397, -0.51176, -0.24557, -0.900573, 0.284216, -1.29561, 0.29527, 0.842079, -0.246336, -0.903638, -0.113874, -0.721494, 0.927074, 1.12172, 0.117826, 0.846428, -0.549584, 0.825444, -0.659989, 0.750199, 0.656168, -0.258243, 1.35686, -0.722582, 0.292266, 0.164319, 1.17284, 0.250474, -0.313764, -1.08183, 0.133276, -0.27896, 1.28041, -0.0264431, 0.0847025, 0.786169, 0.847036, -1.02845, 0.509338, -0.343549, -0.275698, -0.286807, -0.985032)
+
+[node name="Asteroid" type="RigidBody3D"]
+mass = 1000.0
+gravity_scale = 0.0
+linear_damp_mode = 1
+angular_damp_mode = 1
+script = ExtResource("1_owika")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="."]
+shape = SubResource("ConvexPolygonShape3D_tpb6i")
+
+[node name="Asteroid_1" parent="." instance=ExtResource("2_7oul5")]
+script = ExtResource("3_jnm08")
